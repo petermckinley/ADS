@@ -3,16 +3,16 @@ class School:
         self.allStudents = {} #student : instructor
         self.instructors = [] #all instructor objects
 
-    def puntuacion(self, student):
+    def puntuacion(self, student):#o(1) dictionary lookup
         #find student instructor, then find score in instructor book
         if (instructor := self.allStudents.get(student)) is not None:
             return instructor.students[student]
         return "Error"
 
-    def alta(self, student, instruct_name):
+    def alta(self, student, instruct_name):#overall o(n)
     # Check if student exists, if yes, switch them to a new instructor, else register
         instructor = None
-        for people in self.instructors:
+        for people in self.instructors:#o(n)
             if instruct_name == people.firstName:
                 instructor = people
                 break
@@ -33,7 +33,7 @@ class School:
         self.allStudents[student] = instructor
         instructor.students[student] = temp_points 
         
-    def es_alumno(self, student, instrutor_name):
+    def es_alumno(self, student, instrutor_name):#dict lookup o(1)
         #checks if registered under instructor
         if student in self.allStudents:
             instructor = self.allStudents[student]
@@ -42,7 +42,7 @@ class School:
                     return f"{student} es alumno de {instrutor_name}"
         return f"{student} no es alumno de {instrutor_name}"
     
-    def actualizar(self, student, points):
+    def actualizar(self, student, points):#o(1) dict stuff
         #adds points to student if exists
         if self.allStudents.get(student) is not None:
             instructor = self.allStudents[student]
@@ -50,7 +50,7 @@ class School:
             return
         return f"El alumno {student} no esta matriculado."
     
-    def examen(self, instructor, points):
+    def examen(self, instructor, points):#o(number of instructors + numStudents log numstudents)
         #call instructor funciton, using their list
         #alphabeticlly sort, returns list to be printed by text reader
         instructorobj = None
@@ -71,7 +71,7 @@ class School:
         temp_list.sort()
         return temp_list
     
-    def aprobar(self, student):
+    def aprobar(self, student):#o(1)
         #find instructor, delete from them, then delete from school
         if (instructor := self.allStudents.get(student)) is not None:
             instructor.students.pop(student)
@@ -102,7 +102,7 @@ class Instructor:
         self.address = add
     
 
-def process_input():
+def process_input():#time not applicable
     school = School()
     output = []
     while True:
